@@ -1,34 +1,55 @@
-import { Button, TextInput } from '@ignite-ui/react'
+import { Button, TextInput, Text } from '@ignite-ui/react'
 import { ArrowRight } from 'phosphor-react'
-import { Form } from './styles'
+import { Form, FormAnnotation } from './styles'
 import { useForm } from 'react-hook-form'
-import zod from 'zod'
+import { z } from 'zod'
+import { zodResolver } from '@hookform/resolvers/zod'
 
-const handlerPreRegisterFormSchema = zod.object({
-  username: zod.string(),
+const handlerPreRegisterFormSchema = z.object({
+  username: z
+    .string()
+    .min(3, { message: 'O usuário precisa ter pelo menos 3 letras.' })
+    .regex(/^([a-z\\-]+)$/i, {
+      message: 'O usuário pode ter apenas letras e hifens.',
+    })
+    .transform((username) => username.toLowerCase()),
 })
 
-type PreRegisterFormData = zod.infer<typeof handlerPreRegisterFormSchema>
+type PreRegisterFormData = z.infer<typeof handlerPreRegisterFormSchema>
 
 export function ClaimUsernameForm() {
-  const { register, handleSubmit } = useForm<PreRegisterFormData>()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<PreRegisterFormData>({
+    resolver: zodResolver(handlerPreRegisterFormSchema),
+  })
 
   async function handlePreRegisterForm(data: PreRegisterFormData) {
     console.log(data)
   }
 
   return (
-    <Form as="form" onSubmit={handleSubmit(handlePreRegisterForm)}>
-      <TextInput
-        size="sm"
-        prefix="ignite.com/"
-        placeholder="seu-usuário"
-        {...register('username')}
-      />
-      <Button size="sm" type="submit">
-        Reservar
-        <ArrowRight />
-      </Button>
-    </Form>
+    <>
+      <Form as="form" onSubmit={handleSubmit(handlePreRegisterForm)}>
+        <TextInput
+          size="sm"
+          prefix="ignite.com/"
+          placeholder="seu-usuário"
+          {...register('username')}
+        />
+        <Button size="sm" type="submit">
+          Reservar
+          <ArrowRight />
+        </Button>
+      </Form>
+
+      <FormAnnotation>
+        <Text size="sm">
+          {errors.username ? errors.username.message : 'Digite seu usuário'}
+        </Text>
+      </FormAnnotation>
+    </>
   )
 }
