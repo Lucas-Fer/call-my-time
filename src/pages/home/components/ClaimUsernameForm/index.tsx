@@ -4,6 +4,7 @@ import { Form, FormAnnotation } from './styles'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/router'
 
 const handlerPreRegisterFormSchema = z.object({
   username: z
@@ -21,13 +22,17 @@ export function ClaimUsernameForm() {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<PreRegisterFormData>({
     resolver: zodResolver(handlerPreRegisterFormSchema),
   })
 
+  const route = useRouter()
+
   async function handlePreRegisterForm(data: PreRegisterFormData) {
-    console.log(data)
+    const { username } = data
+
+    await route.push(`/register?username=${username}`)
   }
 
   return (
@@ -39,7 +44,7 @@ export function ClaimUsernameForm() {
           placeholder="seu-usuário"
           {...register('username')}
         />
-        <Button size="sm" type="submit">
+        <Button size="sm" type="submit" disabled={isSubmitting}>
           Reservar
           <ArrowRight />
         </Button>
