@@ -64,7 +64,7 @@ export default function Register() {
           <TextInput placeholder="Seu nome" {...register('userfullname')} />
 
           {errors.userfullname && (
-            <FormError size="sm">{errors.username.message}</FormError>
+            <FormError size="sm">{errors.userfullname.message}</FormError>
           )}
         </label>
 
