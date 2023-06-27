@@ -6,6 +6,7 @@ import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import { apiRequest } from '@/lib/axios'
 
 const FormValidationSchema = z.object({
   username: z
@@ -41,7 +42,11 @@ export default function Register() {
   }, [router.query?.username, setValue])
 
   async function handleSubmitForm(data: FormData) {
-    console.log(data)
+    try {
+      await apiRequest.post('/users', data)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   return (
