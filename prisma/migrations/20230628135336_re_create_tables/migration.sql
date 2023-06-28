@@ -1,8 +1,8 @@
 -- CreateTable
 CREATE TABLE "users" (
     "id" TEXT NOT NULL PRIMARY KEY,
-    "userfullname" TEXT NOT NULL,
     "username" TEXT NOT NULL,
+    "userfullname" TEXT NOT NULL,
     "email" TEXT,
     "avatar_url" TEXT,
     "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -35,7 +35,7 @@ CREATE TABLE "sessions" (
 );
 
 -- CreateIndex
-CREATE UNIQUE INDEX "users_userfullname_key" ON "users"("userfullname");
+CREATE UNIQUE INDEX "users_username_key" ON "users"("username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
