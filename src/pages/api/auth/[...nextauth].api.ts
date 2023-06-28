@@ -8,8 +8,11 @@ export function buildNextAuthOptions(
   res: NextApiResponse,
 ): NextAuthOptions {
   return {
+    // disponibiliza o req/res para o prisma adapter
     adapter: PrismaAdapter(req, res),
+
     providers: [
+      // Provider do google passando as keys
       GoogleProvider({
         clientId: process.env.GOOGLE_CLIENT_ID ?? '',
         clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? '',
@@ -32,6 +35,7 @@ export function buildNextAuthOptions(
     ],
 
     callbacks: {
+      // validação na hora do signIn
       async signIn({ account }) {
         if (
           !account?.scope?.includes('https://www.googleapis.com/auth/calendar')
