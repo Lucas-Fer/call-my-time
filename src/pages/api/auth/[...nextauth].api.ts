@@ -44,6 +44,14 @@ export function buildNextAuthOptions(
         }
         return true
       },
+
+      // callback para retornar todas as informações do user e da session
+      async session({ session, user }) {
+        return {
+          ...session,
+          user,
+        }
+      },
     },
   }
 }
