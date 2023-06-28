@@ -12,8 +12,8 @@ datasource db {
 
 model User {
   id           String    @id @default(uuid())
-  userfullname String    @unique
-  username     String
+  username     String    @unique
+  userfullname String
   email        String?   @unique
   avatar_url   String?
   created_at   DateTime  @default(now())
