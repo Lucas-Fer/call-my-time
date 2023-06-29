@@ -21,6 +21,7 @@ import {
 } from './styles'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { convertTimeStringToMinutes } from '@/utils/convert-string-to-minutes'
+import { apiRequest } from '@/lib/axios'
 
 const timeIntervalsFormSchema = z.object({
   intervals: z
@@ -98,9 +99,11 @@ export default function TimeIntervals() {
   })
 
   async function handleSetTimeIntervals(data: any) {
-    const formData = data as TimeIntervalsFormOutput
+    const { intervals } = data as TimeIntervalsFormOutput
 
-    console.log(formData)
+    await apiRequest.post('/users/time-intervals', {
+      intervals,
+    })
   }
 
   return (
