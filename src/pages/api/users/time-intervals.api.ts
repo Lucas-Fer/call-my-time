@@ -10,7 +10,6 @@ const timeIntervalsBodySchema = z.object({
       weekDay: z.number(),
       startTimeInMinutes: z.number(),
       endTimeInMinutes: z.number(),
-      id: z.string(),
     }),
   ),
 })
